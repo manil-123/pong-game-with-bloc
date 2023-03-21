@@ -1,5 +1,10 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pong_game/constants/colors.dart';
+import 'package:pong_game/cubits/game_cubit.dart';
 import 'package:pong_game/views/widgets/ball.dart';
 import 'package:pong_game/views/widgets/brick.dart';
 import 'package:pong_game/views/widgets/cover_screen.dart';
@@ -12,30 +17,87 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  GameCubit? gameCubit;
+  @override
+  void initState() {
+    super.initState();
+    _setupCubit();
+    _startGame();
+  }
+
+  void _setupCubit() {
+    gameCubit = BlocProvider.of<GameCubit>(context);
+  }
+
+  void _startGame() {
+    gameCubit!.startGame();
+    Timer.periodic(const Duration(milliseconds: 100), (timer) {
+      gameCubit!.updateBallPosition();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.scaffoldBackgroundColor,
-      body: Center(
-        child: Stack(
-          children: const [
-            //Cover screen
-            CoverScreen(),
-            //top brick
-            MyBrick(
-              x: 0,
-              y: -0.9,
-            ),
+    return BlocBuilder<GameCubit, GameState>(
+      builder: (context, state) {
+        log(state.props.toString());
 
-            //bottom brick
-            MyBrick(
-              x: 0,
-              y: 0.9,
+        if (state is GameInitial) {
+          return _intialGameWidget(state);
+        } else if (state is GameUnderPlay) {
+          return Scaffold(
+            backgroundColor: AppColors.scaffoldBackgroundColor,
+            body: Center(
+              child: Stack(
+                children: [
+                  //top brick
+                  const MyBrick(
+                    x: 0,
+                    y: -0.9,
+                  ),
+                  //bottom brick
+                  const MyBrick(
+                    x: 0,
+                    y: 0.9,
+                  ),
+                  //ball
+                  MyBall(x: state.ballX, y: state.ballY),
+                ],
+              ),
             ),
+          );
+        }
+        return Container();
+      },
+    );
+  }
 
-            //ball
-            MyBall(x: 0, y: 0),
-          ],
+  Widget _intialGameWidget(GameState state) {
+    return GestureDetector(
+      onTap: _startGame,
+      child: Scaffold(
+        backgroundColor: AppColors.scaffoldBackgroundColor,
+        body: Center(
+          child: Stack(
+            children: [
+              //Cover screen
+              CoverScreen(
+                gameHasStarted: state.gameHasStarted,
+              ),
+              //top brick
+              const MyBrick(
+                x: 0,
+                y: -0.9,
+              ),
+              //bottom brick
+              const MyBrick(
+                x: 0,
+                y: 0.9,
+              ),
+              //ball
+              const MyBall(x: 0, y: 0),
+            ],
+          ),
         ),
       ),
     );

@@ -14,21 +14,18 @@ class MyBall extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment(x!, y!),
-      child: AvatarGlow(
-        endRadius: 60,
-        child: Material(
-          elevation: 8,
-          shape: const CircleBorder(),
-          child: CircleAvatar(
-            backgroundColor: Colors.grey[100],
-            radius: 7,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Container(
-                color: Colors.white,
-                height: 30,
-                width: 30,
-              ),
+      child: Material(
+        elevation: 8,
+        shape: const CircleBorder(),
+        child: CircleAvatar(
+          backgroundColor: Colors.grey[100],
+          radius: 7,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: Container(
+              color: Colors.white,
+              height: 30,
+              width: 30,
             ),
           ),
         ),
