@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pong_game/constants/colors.dart';
 import 'package:pong_game/views/widgets/ball.dart';
 import 'package:pong_game/views/widgets/brick.dart';
+import 'package:pong_game/views/widgets/cover_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,7 +18,9 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: AppColors.scaffoldBackgroundColor,
       body: Center(
         child: Stack(
-          children: [
+          children: const [
+            //Cover screen
+            CoverScreen(),
             //top brick
             MyBrick(
               x: 0,
