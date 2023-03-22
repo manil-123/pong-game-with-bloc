@@ -26,42 +26,32 @@ class GameCubit extends Cubit<GameState> {
       ),
     );
     await Future.delayed(
-      const Duration(seconds: 20),
+      const Duration(seconds: 10),
     );
     emit(
       const GameInitial(false),
     );
   }
 
-  void moveBall() {
+  void updateDirection() {
     final state = this.state;
     if (state is! GameUnderPlay) return;
     if (state.ballY >= 0.9) {
       emit(
-        GameUnderPlay(
-          state.ballX,
-          state.ballY,
-          direction.UP,
-          state.ballXDirection,
-          state.playerX,
-          true,
+        state.copyWith(
+          ballYDirection: direction.UP,
         ),
       );
     } else if (state.ballY <= -0.9) {
       emit(
-        GameUnderPlay(
-          state.ballX,
-          state.ballY,
-          state.ballXDirection,
-          direction.DOWN,
-          state.playerX,
-          true,
+        state.copyWith(
+          ballYDirection: direction.DOWN,
         ),
       );
     }
   }
 
-  void updateBallPosition() {
+  void moveBall() {
     final state = this.state;
     if (state is! GameUnderPlay) return;
     // vertical movement
@@ -76,6 +66,17 @@ class GameCubit extends Cubit<GameState> {
         state.copyWith(
           ballY: state.ballY - 0.01,
         ),
+      );
+    }
+
+    //horizontal movement
+    if (state.ballXDirection == direction.LEFT) {
+      emit(
+        state.copyWith(ballX: state.ballX - 0.01),
+      );
+    } else if (state.ballXDirection == direction.RIGHT) {
+      emit(
+        state.copyWith(ballX: state.ballX + 0.01),
       );
     }
   }

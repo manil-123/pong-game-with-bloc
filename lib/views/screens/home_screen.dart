@@ -33,10 +33,10 @@ class _HomeScreenState extends State<HomeScreen> {
   void _startGame() {
     gameCubit!.startGame();
     Timer.periodic(const Duration(milliseconds: 50), (timer) {
-      // move ball
-      gameCubit!.updateBallPosition();
-
       //update direction
+      gameCubit!.updateDirection();
+
+      // move ball
       gameCubit!.moveBall();
     });
   }
