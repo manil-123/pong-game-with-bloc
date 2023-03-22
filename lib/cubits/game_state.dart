@@ -16,18 +16,25 @@ class GameInitial extends GameState {
 }
 
 class GameUnderPlay extends GameState {
+  // for ball
   final double ballX;
   final double ballY;
-  final direction ballDirection;
+  final direction ballYDirection;
+  final direction ballXDirection;
+  // for player brick
+  final double playerX;
   const GameUnderPlay(
     this.ballX,
     this.ballY,
-    this.ballDirection,
+    this.ballYDirection,
+    this.ballXDirection,
+    this.playerX,
     super.gameHasStarted,
   );
 
   @override
-  List<Object?> get props => [ballX, ballY, gameHasStarted];
+  List<Object?> get props =>
+      [ballX, ballY, ballYDirection, ballXDirection, playerX, gameHasStarted];
 }
 
 class GameFinished extends GameState {
