@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
       gameCubit!.updateBallPosition();
 
       //update direction
-      gameCubit!.updateDirection();
+      gameCubit!.moveBall();
     });
   }
 

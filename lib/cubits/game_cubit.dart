@@ -33,7 +33,7 @@ class GameCubit extends Cubit<GameState> {
     );
   }
 
-  void updateDirection() {
+  void moveBall() {
     final state = this.state;
     if (state is! GameUnderPlay) return;
     if (state.ballY >= 0.9) {
@@ -64,26 +64,17 @@ class GameCubit extends Cubit<GameState> {
   void updateBallPosition() {
     final state = this.state;
     if (state is! GameUnderPlay) return;
+    // vertical movement
     if (state.ballYDirection == direction.DOWN) {
       emit(
-        GameUnderPlay(
-          state.ballX,
-          state.ballY + 0.01,
-          state.ballYDirection,
-          state.ballXDirection,
-          state.playerX,
-          true,
+        state.copyWith(
+          ballY: state.ballY + 0.01,
         ),
       );
     } else if (state.ballYDirection == direction.UP) {
       emit(
-        GameUnderPlay(
-          state.ballX,
-          state.ballY - 0.01,
-          state.ballYDirection,
-          state.ballXDirection,
-          state.playerX,
-          true,
+        state.copyWith(
+          ballY: state.ballY - 0.01,
         ),
       );
     }
@@ -93,13 +84,8 @@ class GameCubit extends Cubit<GameState> {
     final state = this.state;
     if (state is! GameUnderPlay) return;
     emit(
-      GameUnderPlay(
-        state.ballX,
-        state.ballY,
-        state.ballYDirection,
-        state.ballXDirection,
-        state.playerX - 0.05,
-        true,
+      state.copyWith(
+        playerX: state.playerX - 0.05,
       ),
     );
   }
@@ -108,13 +94,8 @@ class GameCubit extends Cubit<GameState> {
     final state = this.state;
     if (state is! GameUnderPlay) return;
     emit(
-      GameUnderPlay(
-        state.ballX,
-        state.ballY,
-        state.ballYDirection,
-        state.ballXDirection,
-        state.playerX + 0.05,
-        true,
+      state.copyWith(
+        playerX: state.playerX + 0.05,
       ),
     );
   }

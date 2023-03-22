@@ -35,6 +35,23 @@ class GameUnderPlay extends GameState {
   @override
   List<Object?> get props =>
       [ballX, ballY, ballYDirection, ballXDirection, playerX, gameHasStarted];
+
+  GameUnderPlay copyWith({
+    double? ballX,
+    double? ballY,
+    direction? ballYDirection,
+    direction? ballXDirection,
+    double? playerX,
+  }) {
+    return GameUnderPlay(
+      ballX ?? this.ballX,
+      ballY ?? this.ballY,
+      ballYDirection ?? this.ballYDirection,
+      ballXDirection ?? this.ballXDirection,
+      playerX ?? this.playerX,
+      gameHasStarted,
+    );
+  }
 }
 
 class GameFinished extends GameState {
