@@ -83,13 +83,23 @@ class GameCubit extends Cubit<GameState> {
       ballXDirection = direction.RIGHT;
     }
 
+    //update enemy position
+    // double enemyX = state.ballX;
+    // if (enemyX + state.brickWidth >= 1) {
+    //   enemyX = 1 - state.brickWidth; // adjust enemyX to keep it on the screen
+    // } else if (enemyX <= -1) {
+    //   enemyX = -1; // adjust enemyX to keep it on the screen
+    // }
+
     emit(
       state.copyWith(
         ballY: ballY,
         ballX: ballX,
         ballYDirection: ballYDirection,
         ballXDirection: ballXDirection,
-        enemyX: ballX,
+        enemyX: !(state.ballX + state.brickWidth >= 1)
+            ? ballX
+            : 1 - state.brickWidth,
       ),
     );
   }

@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _startGame() {
     gameCubit!.startGame();
-    Timer.periodic(const Duration(milliseconds: 20), (timer) {
+    Timer.periodic(const Duration(milliseconds: 15), (timer) {
       // move ball
       gameCubit!.moveBall();
 
@@ -177,34 +177,36 @@ class _HomeScreenState extends State<HomeScreen> {
       onTap: _startGame,
       child: Scaffold(
         backgroundColor: AppColors.scaffoldBackgroundColor,
-        body: Center(
-          child: Stack(
-            children: [
-              //Cover screen
-              CoverScreen(
-                gameHasStarted: state.gameHasStarted,
-              ),
-              //top brick
-              const MyBrick(
-                x: -0.2,
-                y: -0.9,
-                brickWidth: 0.4,
-                thisIsEnemy: true,
-              ),
-              //bottom brick
-              const MyBrick(
-                x: -0.2,
-                y: 0.9,
-                brickWidth: 0.4,
-                thisIsEnemy: false,
-              ),
-              //ball
-              MyBall(
-                x: 0,
-                y: 0,
-                gameHasStarted: state.gameHasStarted,
-              ),
-            ],
+        body: SafeArea(
+          child: Center(
+            child: Stack(
+              children: [
+                //Cover screen
+                CoverScreen(
+                  gameHasStarted: state.gameHasStarted,
+                ),
+                //top brick
+                const MyBrick(
+                  x: -0.2,
+                  y: -0.95,
+                  brickWidth: 0.4,
+                  thisIsEnemy: true,
+                ),
+                //bottom brick
+                const MyBrick(
+                  x: -0.2,
+                  y: 0.95,
+                  brickWidth: 0.4,
+                  thisIsEnemy: false,
+                ),
+                //ball
+                MyBall(
+                  x: 0,
+                  y: 0,
+                  gameHasStarted: state.gameHasStarted,
+                ),
+              ],
+            ),
           ),
         ),
       ),
