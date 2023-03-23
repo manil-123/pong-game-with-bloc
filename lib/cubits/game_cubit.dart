@@ -13,7 +13,7 @@ class GameCubit extends Cubit<GameState> {
           const GameInitial(false),
         );
 
-  void startGame() async {
+  void startGame() {
     log("start game");
     emit(
       const GameUnderPlay(
@@ -26,11 +26,20 @@ class GameCubit extends Cubit<GameState> {
         true,
       ),
     );
-    await Future.delayed(
-      const Duration(seconds: 30),
-    );
+  }
+
+  bool isPlayerDead() {
+    final state = this.state;
+    if (state is! GameUnderPlay) return true;
+    if (state.ballY >= 1) {
+      return true;
+    }
+    return false;
+  }
+
+  void resetGame() {
     emit(
-      const GameInitial(false),
+      const GameFinished(0, 0, direction.DOWN, direction.LEFT, 0, 0.4, false),
     );
   }
 

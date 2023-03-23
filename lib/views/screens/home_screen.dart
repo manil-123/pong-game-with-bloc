@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pong_game/constants/colors.dart';
 import 'package:pong_game/cubits/game_cubit.dart';
@@ -32,9 +30,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _startGame() {
     gameCubit!.startGame();
-    Timer.periodic(const Duration(milliseconds: 100), (timer) {
+    Timer.periodic(const Duration(milliseconds: 1), (timer) {
       // move ball
       gameCubit!.moveBall();
+
+      if (gameCubit!.isPlayerDead()) {
+        timer.cancel();
+        gameCubit!.resetGame();
+      }
     });
   }
 
@@ -43,41 +46,81 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocBuilder<GameCubit, GameState>(
       builder: (context, state) {
         log(state.props.toString());
-
         if (state is GameInitial) {
+          return _intialGameWidget(state);
+        } else if (state is GameFinished) {
           return _intialGameWidget(state);
         } else if (state is GameUnderPlay) {
           return RawKeyboardListener(
             focusNode: FocusNode(),
-            autofocus: true,
-            onKey: (event) {
-              if (event.isKeyPressed(LogicalKeyboardKey.arrowLeft)) {
-                gameCubit!.moveLeft();
-              }
-              if (event.isKeyPressed(LogicalKeyboardKey.arrowRight)) {
-                gameCubit!.moveRight();
-              }
-            },
+            // autofocus: true,
+            // onKey: (event) {
+            //   if (event.isKeyPressed(LogicalKeyboardKey.arrowLeft)) {
+            //     gameCubit!.moveLeft();
+            //   }
+            //   if (event.isKeyPressed(LogicalKeyboardKey.arrowRight)) {
+            //     gameCubit!.moveRight();
+            //   }
+            // },
             child: Scaffold(
               backgroundColor: AppColors.scaffoldBackgroundColor,
-              body: Center(
-                child: Stack(
-                  children: [
-                    //top brick
-                    MyBrick(
-                      x: 0,
-                      y: -0.9,
-                      brickWidth: state.brickWidth,
-                    ),
-                    // player brick
-                    MyBrick(
-                      x: state.playerX,
-                      y: 0.9,
-                      brickWidth: state.brickWidth,
-                    ),
-                    //ball
-                    MyBall(x: state.ballX, y: state.ballY),
-                  ],
+              body: SafeArea(
+                child: Center(
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Stack(
+                          children: [
+                            //top brick
+                            MyBrick(
+                              x: 0,
+                              y: -0.9,
+                              brickWidth: state.brickWidth,
+                            ),
+                            // player brick
+                            MyBrick(
+                              x: state.playerX,
+                              y: 0.9,
+                              brickWidth: state.brickWidth,
+                            ),
+                            //ball
+                            MyBall(x: state.ballX, y: state.ballY),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 80,
+                        color: Colors.grey[400],
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                gameCubit!.moveLeft();
+                              },
+                              child: const Card(
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Icon(Icons.keyboard_arrow_left),
+                                ),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                gameCubit!.moveRight();
+                              },
+                              child: const Card(
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Icon(Icons.keyboard_arrow_right),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
