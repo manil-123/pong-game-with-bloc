@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _startGame() {
     gameCubit!.startGame();
-    Timer.periodic(const Duration(milliseconds: 1), (timer) {
+    Timer.periodic(const Duration(milliseconds: 20), (timer) {
       // move ball
       gameCubit!.moveBall();
 
@@ -43,6 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void _showDialog() {
     showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (context) {
           return AlertDialog(
             backgroundColor: Colors.deepPurple,
@@ -105,20 +106,26 @@ class _HomeScreenState extends State<HomeScreen> {
                       Expanded(
                         child: Stack(
                           children: [
-                            //top brick
+                            //enemy brick
                             MyBrick(
-                              x: 0,
-                              y: -0.9,
+                              x: state.enemyX,
+                              y: -0.95,
                               brickWidth: state.brickWidth,
+                              thisIsEnemy: true,
                             ),
                             // player brick
                             MyBrick(
                               x: state.playerX,
-                              y: 0.9,
+                              y: 0.95,
                               brickWidth: state.brickWidth,
+                              thisIsEnemy: false,
                             ),
                             //ball
-                            MyBall(x: state.ballX, y: state.ballY),
+                            MyBall(
+                              x: state.ballX,
+                              y: state.ballY,
+                              gameHasStarted: state.gameHasStarted,
+                            ),
                           ],
                         ),
                       ),
@@ -179,18 +186,24 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               //top brick
               const MyBrick(
-                x: 0,
+                x: -0.2,
                 y: -0.9,
                 brickWidth: 0.4,
+                thisIsEnemy: true,
               ),
               //bottom brick
               const MyBrick(
-                x: 0,
+                x: -0.2,
                 y: 0.9,
                 brickWidth: 0.4,
+                thisIsEnemy: false,
               ),
               //ball
-              const MyBall(x: 0, y: 0),
+              MyBall(
+                x: 0,
+                y: 0,
+                gameHasStarted: state.gameHasStarted,
+              ),
             ],
           ),
         ),

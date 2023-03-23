@@ -1,10 +1,8 @@
 // ignore_for_file: constant_identifier_names
-
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:pong_game/ball.dart';
-import 'package:pong_game/brick.dart';
-import 'package:pong_game/views/widgets/cover_screen.dart';
+import 'package:pong_game/views/widgets/ball.dart';
+import 'package:pong_game/views/widgets/brick.dart';
 
 // ignore: camel_case_types
 enum direction { UP, DOWN, LEFT, RIGHT }
@@ -180,14 +178,14 @@ class _HomePageState extends State<HomePage> {
                       //   gameHasStarted: _gameHasStarted,
                       // ),
                       //top brick
-                      Brick(
+                      MyBrick(
                         x: _enemyX,
                         y: -0.9,
                         brickWidth: _brickWidth,
                         thisIsEnemy: true,
                       ),
                       //bottom brick
-                      Brick(
+                      MyBrick(
                         x: _playerX,
                         y: 0.9,
                         brickWidth: _brickWidth,
@@ -196,7 +194,7 @@ class _HomePageState extends State<HomePage> {
 
                       //ball
 
-                      Ball(
+                      MyBall(
                         x: _ballX,
                         y: _ballY,
                         gameHasStarted: _gameHasStarted,

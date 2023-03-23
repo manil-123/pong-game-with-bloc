@@ -23,6 +23,7 @@ class GameUnderPlay extends GameState {
   final direction ballXDirection;
   // for player brick
   final double playerX;
+  final double enemyX;
   final double brickWidth;
   const GameUnderPlay(
     this.ballX,
@@ -30,6 +31,7 @@ class GameUnderPlay extends GameState {
     this.ballYDirection,
     this.ballXDirection,
     this.playerX,
+    this.enemyX,
     this.brickWidth,
     super.gameHasStarted,
   );
@@ -41,6 +43,7 @@ class GameUnderPlay extends GameState {
         ballYDirection,
         ballXDirection,
         playerX,
+        enemyX,
         brickWidth,
         gameHasStarted
       ];
@@ -51,6 +54,7 @@ class GameUnderPlay extends GameState {
     direction? ballYDirection,
     direction? ballXDirection,
     double? playerX,
+    double? enemyX,
   }) {
     return GameUnderPlay(
       ballX ?? this.ballX,
@@ -58,6 +62,7 @@ class GameUnderPlay extends GameState {
       ballYDirection ?? this.ballYDirection,
       ballXDirection ?? this.ballXDirection,
       playerX ?? this.playerX,
+      enemyX ?? this.enemyX,
       brickWidth,
       gameHasStarted,
     );

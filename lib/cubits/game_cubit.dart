@@ -14,14 +14,14 @@ class GameCubit extends Cubit<GameState> {
         );
 
   void startGame() {
-    log("start game");
     emit(
       const GameUnderPlay(
         0,
         0,
         direction.DOWN,
         direction.LEFT,
-        0,
+        -0.2,
+        -0.2,
         0.4,
         true,
       ),
@@ -77,9 +77,9 @@ class GameCubit extends Cubit<GameState> {
 
     //update horizontal direction
     direction ballXDirection = state.ballXDirection;
-    if (state.ballX >= 0.9) {
+    if (state.ballX >= 1) {
       ballXDirection = direction.LEFT;
-    } else if (state.ballX <= -0.9) {
+    } else if (state.ballX <= -1) {
       ballXDirection = direction.RIGHT;
     }
 
@@ -89,6 +89,7 @@ class GameCubit extends Cubit<GameState> {
         ballX: ballX,
         ballYDirection: ballYDirection,
         ballXDirection: ballXDirection,
+        enemyX: ballX,
       ),
     );
   }
@@ -98,7 +99,8 @@ class GameCubit extends Cubit<GameState> {
     if (state is! GameUnderPlay) return;
     emit(
       state.copyWith(
-        playerX: state.playerX - 0.05,
+        playerX:
+            !(state.playerX - 0.1 <= -1) ? state.playerX - 0.2 : state.playerX,
       ),
     );
   }
@@ -108,7 +110,9 @@ class GameCubit extends Cubit<GameState> {
     if (state is! GameUnderPlay) return;
     emit(
       state.copyWith(
-        playerX: state.playerX + 0.05,
+        playerX: !(state.playerX + state.brickWidth >= 1)
+            ? state.playerX + 0.2
+            : state.playerX,
       ),
     );
   }
