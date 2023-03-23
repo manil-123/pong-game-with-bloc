@@ -32,10 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _startGame() {
     gameCubit!.startGame();
-    Timer.periodic(const Duration(milliseconds: 50), (timer) {
-      //update direction
-      gameCubit!.updateDirection();
-
+    Timer.periodic(const Duration(milliseconds: 100), (timer) {
       // move ball
       gameCubit!.moveBall();
     });
@@ -67,14 +64,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Stack(
                   children: [
                     //top brick
-                    const MyBrick(
+                    MyBrick(
                       x: 0,
                       y: -0.9,
+                      brickWidth: state.brickWidth,
                     ),
                     // player brick
                     MyBrick(
                       x: state.playerX,
                       y: 0.9,
+                      brickWidth: state.brickWidth,
                     ),
                     //ball
                     MyBall(x: state.ballX, y: state.ballY),
@@ -105,11 +104,13 @@ class _HomeScreenState extends State<HomeScreen> {
               const MyBrick(
                 x: 0,
                 y: -0.9,
+                brickWidth: 0.4,
               ),
               //bottom brick
               const MyBrick(
                 x: 0,
                 y: 0.9,
+                brickWidth: 0.4,
               ),
               //ball
               const MyBall(x: 0, y: 0),

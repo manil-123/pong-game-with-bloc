@@ -22,63 +22,64 @@ class GameCubit extends Cubit<GameState> {
         direction.DOWN,
         direction.LEFT,
         0,
+        0.4,
         true,
       ),
     );
     await Future.delayed(
-      const Duration(seconds: 10),
+      const Duration(seconds: 30),
     );
     emit(
       const GameInitial(false),
     );
   }
 
-  void updateDirection() {
-    final state = this.state;
-    if (state is! GameUnderPlay) return;
-    if (state.ballY >= 0.9) {
-      emit(
-        state.copyWith(
-          ballYDirection: direction.UP,
-        ),
-      );
-    } else if (state.ballY <= -0.9) {
-      emit(
-        state.copyWith(
-          ballYDirection: direction.DOWN,
-        ),
-      );
-    }
-  }
-
   void moveBall() {
     final state = this.state;
     if (state is! GameUnderPlay) return;
+    double ballY = state.ballY;
+    double ballX = state.ballX;
     // vertical movement
     if (state.ballYDirection == direction.DOWN) {
-      emit(
-        state.copyWith(
-          ballY: state.ballY + 0.01,
-        ),
-      );
+      ballY += 0.01;
     } else if (state.ballYDirection == direction.UP) {
-      emit(
-        state.copyWith(
-          ballY: state.ballY - 0.01,
-        ),
-      );
+      ballY -= 0.01;
     }
 
     //horizontal movement
     if (state.ballXDirection == direction.LEFT) {
-      emit(
-        state.copyWith(ballX: state.ballX - 0.01),
-      );
+      ballX -= 0.01;
     } else if (state.ballXDirection == direction.RIGHT) {
-      emit(
-        state.copyWith(ballX: state.ballX + 0.01),
-      );
+      ballX += 0.01;
     }
+
+    //check for collisions
+    // vertical direction
+    direction ballYDirection = state.ballYDirection;
+    if (state.ballY >= 0.9 &&
+        state.playerX <= ballX &&
+        state.playerX + state.brickWidth >= state.ballX) {
+      ballYDirection = direction.UP;
+    } else if (state.ballY <= -0.9) {
+      ballYDirection = direction.DOWN;
+    }
+
+    //update horizontal direction
+    direction ballXDirection = state.ballXDirection;
+    if (state.ballX >= 0.9) {
+      ballXDirection = direction.LEFT;
+    } else if (state.ballX <= -0.9) {
+      ballXDirection = direction.RIGHT;
+    }
+
+    emit(
+      state.copyWith(
+        ballY: ballY,
+        ballX: ballX,
+        ballYDirection: ballYDirection,
+        ballXDirection: ballXDirection,
+      ),
+    );
   }
 
   void moveLeft() {

@@ -23,18 +23,27 @@ class GameUnderPlay extends GameState {
   final direction ballXDirection;
   // for player brick
   final double playerX;
+  final double brickWidth;
   const GameUnderPlay(
     this.ballX,
     this.ballY,
     this.ballYDirection,
     this.ballXDirection,
     this.playerX,
+    this.brickWidth,
     super.gameHasStarted,
   );
 
   @override
-  List<Object?> get props =>
-      [ballX, ballY, ballYDirection, ballXDirection, playerX, gameHasStarted];
+  List<Object?> get props => [
+        ballX,
+        ballY,
+        ballYDirection,
+        ballXDirection,
+        playerX,
+        brickWidth,
+        gameHasStarted
+      ];
 
   GameUnderPlay copyWith({
     double? ballX,
@@ -49,6 +58,7 @@ class GameUnderPlay extends GameState {
       ballYDirection ?? this.ballYDirection,
       ballXDirection ?? this.ballXDirection,
       playerX ?? this.playerX,
+      brickWidth,
       gameHasStarted,
     );
   }

@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:pong_game/brick.dart';
 
 class MyBrick extends StatelessWidget {
   final double? x;
   final double? y;
-  const MyBrick({super.key, required this.x, required this.y});
+  final double brickWidth;
+  const MyBrick({
+    super.key,
+    required this.x,
+    required this.y,
+    required this.brickWidth,
+  });
 
   @override
   Widget build(BuildContext context) {
