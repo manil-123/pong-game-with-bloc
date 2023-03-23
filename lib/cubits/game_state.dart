@@ -64,32 +64,32 @@ class GameUnderPlay extends GameState {
   }
 }
 
-class GameFinished extends GameState {
-  final double ballX;
-  final double ballY;
-  final direction ballYDirection;
-  final direction ballXDirection;
-  // for player brick
-  final double playerX;
-  final double brickWidth;
-  const GameFinished(
-    this.ballX,
-    this.ballY,
-    this.ballYDirection,
-    this.ballXDirection,
-    this.playerX,
-    this.brickWidth,
-    super.gameHasStarted,
-  );
+// class GameFinished extends GameState {
+//   final double ballX;
+//   final double ballY;
+//   final direction ballYDirection;
+//   final direction ballXDirection;
+//   // for player brick
+//   final double playerX;
+//   final double brickWidth;
+//   const GameFinished(
+//     this.ballX,
+//     this.ballY,
+//     this.ballYDirection,
+//     this.ballXDirection,
+//     this.playerX,
+//     this.brickWidth,
+//     super.gameHasStarted,
+//   );
 
-  @override
-  List<Object?> get props => [
-        ballX,
-        ballY,
-        ballYDirection,
-        ballXDirection,
-        playerX,
-        brickWidth,
-        gameHasStarted
-      ];
-}
+//   @override
+//   List<Object?> get props => [
+//         ballX,
+//         ballY,
+//         ballYDirection,
+//         ballXDirection,
+//         playerX,
+//         brickWidth,
+//         gameHasStarted
+//       ];
+// }

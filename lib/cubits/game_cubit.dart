@@ -39,7 +39,9 @@ class GameCubit extends Cubit<GameState> {
 
   void resetGame() {
     emit(
-      const GameFinished(0, 0, direction.DOWN, direction.LEFT, 0, 0.4, false),
+      const GameInitial(
+        false,
+      ),
     );
   }
 

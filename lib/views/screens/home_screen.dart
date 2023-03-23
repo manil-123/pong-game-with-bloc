@@ -21,7 +21,6 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _setupCubit();
-    _startGame();
   }
 
   void _setupCubit() {
@@ -36,19 +35,54 @@ class _HomeScreenState extends State<HomeScreen> {
 
       if (gameCubit!.isPlayerDead()) {
         timer.cancel();
-        gameCubit!.resetGame();
+        _showDialog();
       }
     });
+  }
+
+  void _showDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: Colors.deepPurple,
+            title: const Center(
+              child: Text(
+                'PURPLE WON',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+            actions: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                  gameCubit!.resetGame();
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(15),
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    color: Colors.deepPurple[100],
+                    child: Text(
+                      'PLAY AGAIN',
+                      style: TextStyle(color: Colors.deepPurple[800]),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          );
+        });
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GameCubit, GameState>(
       builder: (context, state) {
-        log(state.props.toString());
+        log(
+          state.toString(),
+        );
         if (state is GameInitial) {
-          return _intialGameWidget(state);
-        } else if (state is GameFinished) {
           return _intialGameWidget(state);
         } else if (state is GameUnderPlay) {
           return RawKeyboardListener(
